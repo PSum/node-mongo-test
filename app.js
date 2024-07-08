@@ -8,7 +8,7 @@ const Blog = require('./blog');
 const app = express();
 
 // connect to mongodb & listen for requests
-const dbURI = "mongodb+srv://netninja:test1234@net-ninja-tuts-del96.mongodb.net/node-tuts";
+const dbURI = "mongodb+srv://sumphilipp:iLKf4Ej6VmsfPQ7t@cluster0.eos7a7c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => app.listen(3000))
@@ -21,9 +21,9 @@ app.use(morgan('dev'));
 // mongoose & mongo tests
 app.get('/add-blog', (req, res) => {
   const blog = new Blog({
-    title: 'new blog',
-    snippet: 'about my new blog',
-    body: 'more about my new blog'
+    title: 'second new blog',
+    snippet: 'second new blog',
+    body: 'This is the body of my second new blog'
   });
 
   blog.save()
@@ -48,7 +48,7 @@ app.get('/all-blogs', (req, res) => {
 });
 
 app.get('/single-blog', (req, res) => {
-  Blog.findById('5ea99b49b8531f40c0fde689')
+  Blog.findById('668c1cd3c18bd20d4981b617')
     .then(result => {
       res.send(result);
     })
