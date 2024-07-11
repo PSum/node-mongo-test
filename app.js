@@ -36,41 +36,46 @@ app.get('/add-blog', (req, res) => {
     });
 });
 
-app.get('/all-blogs', (req, res) => {
-  Blog.find()
-    .then(result => {
-      res.send(result);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send(err);
-    });
-});
 
-app.get('/single-blog', (req, res) => {
-  Blog.findById('668c1cd3c18bd20d4981b617')
-    .then(result => {
-      res.send(result);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send(err);
-    });
-});
-
-// blog routes
 app.get('/blogs', (req, res) => {
   Blog.find().sort({ createdAt: -1 })
     .then(result => {
-      res.send(result);
+    res.send(result)
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+    });
+});
+
+
+app.post('/blogs', (req, res) => {
+  // console.log(req.body);
+const someObject = {title: 'Banana', type: 'fruit', score: 'healthy'}
+  const blog = new Blog(someObject);
+// req.body is some information of the frontend which is named body
+
+  blog.save()
+    .then(result => {
+      res.redirect('/blogs');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.delete('/blogs/:id', (req, res) => {
+  const id = 4;
+  
+  Blog.findByIdAndDelete(id)
+    .then(result => {
+      res.json({ redirect: '/blogs' });
+    })
+    .catch(err => {
+      console.log(err);
     });
 });
 
 // 404 page
 app.use((req, res) => {
-  res.status(404).send({ error: 'Not Found' });
+  res.status(404).send({ error: 'Not Found idiot' });
 });
